@@ -21,3 +21,8 @@
     - RFID系統的演算法
 - regx52.h
     - 8051的標準函式庫，包含special funtion register
+
+## Notes
+
+- [Notion](https://zippy-stretch-eb0.notion.site/8051-RFID-Access-control-2c67e968bec74822b4e508a5a055926b "link")
+- [PDF](https://drive.google.com/file/d/1LVrrkECrpcI217pk-Pp_OPU__6wGkkzl/view?usp=sharing "link") (Notion匯出的版本，可能會跑板)
