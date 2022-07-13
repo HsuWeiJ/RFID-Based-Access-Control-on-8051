@@ -1,8 +1,8 @@
 #include<regx52.h> 
 #define SIZE 12
-#define RS P1_0
-#define RW P1_1
-#define E  P1_2
+#define RS P1_0    //Resgister Selector  , 0 : 寫入指令暫存器 ; 1 : 寫入資料暫存器
+#define RW P1_1    //Read/Write   0 : 指令/資料寫入操作 ; 1 : 讀取lcd內部資料
+#define E  P1_2    //致能接腳 ， E = 1 時 ，寫入或讀取的指令才有效
 
 unsigned char buf;
 unsigned char IsMember;
@@ -12,13 +12,13 @@ char count;
 int i;
 int j;
 
-code char string1[]={ "Put your card to" };      //設定LCD顯示字串
+code char string1[]={ "Put your card to" };               //設定LCD顯示字串
 code char string2[]={ "the reader." };
 code char string3[]={ "ID:" };
 code char string4[]={ "Authorize access:" };
 code char string5[]={ "Authorize denied:" };
 code char member[2][12]={"1B00344A5431","1B00288D10AE"};  //設定Member的ID
-int timer,cnt=9990,temp; 	// 設定cnt計數值=9990
+int timer,cnt=9990,temp; 	                                
 /**** 延遲10us 副程式 ****/
 void delay_10us(unsigned int time)
   { while(time>0) time--; }
@@ -50,8 +50,8 @@ void init(void)
 /**** 顯示位置 副程式 ****/
 void disp_p(char row,word)
   { char change_p;
-    row--;word--;
-    change_p=0x80+(row*0x40+word);
+    row--;word--;                  //初始值為0開始 ， 故減1 
+    change_p=0x80+(row*0x40+word); 
     write_c(change_p);
   } 
 /**** 顯示字串 副程式 ****/
@@ -68,8 +68,8 @@ void main (void)
     TH1=TL1=0xF9;       //設定鮑率為9600
     TR1=1;              //啟動Timer 1
     PCON=0x80;          //SMOD 設為1 搭配TH1=TL1=0xF9,使鮑率為9600
-    SCON=0x50;           //設定串列埠為Mode 1 ， 且致能接收腳位
-    ES=EA=1;             //設定UART中斷致能
+    SCON=0x50;          //設定串列埠為Mode 1 ， 且致能接收腳位
+    ES=EA=1;            //設定UART中斷致能
 		lock=0;
     IsMember=0;
 		count=0;
@@ -78,10 +78,10 @@ void main (void)
 
 IDLE:                   //待機顯示畫面
   write_c(0x01);
-  disp_p(1,1); //設定顯示位置 
-  disp_s(string1);//顯示字串1
-  disp_p(2,1);	 //設定顯示位置 
-  disp_s(string2);//顯示字串2
+  disp_p(1,1);          //設定顯示位置 
+  disp_s(string1);      //顯示字串1
+  disp_p(2,1);	        //設定顯示位置 
+  disp_s(string2);      //顯示字串2
 
 	while(1)
 	{
@@ -133,7 +133,7 @@ void uart (void) interrupt 4
 {
     if(RI==1 && lock == 0)
     {
-		  buf=SBUF;       //讀取RFID模組傳回的data
+		  buf=SBUF;              //讀取RFID模組傳回的data
 
       dat[count]=buf & ~128; //ASCII Code MSB=0
       buf=0;
@@ -141,9 +141,9 @@ void uart (void) interrupt 4
       if(count>=SIZE )
       {
         count=0;
-        lock=1;
+        lock=1;              //接受的byte數量大於12時上鎖(RFID為12碼)
       }
-      RI=0;      //將接收中斷旗標歸零
+      RI=0;                  //將接收中斷旗標歸零
       
     }
     else
