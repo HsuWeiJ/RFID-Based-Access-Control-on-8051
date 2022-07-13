@@ -6,7 +6,7 @@
 
 利用RFID進行門禁管理時，需要在系統中設定獲得批准的RFID標籤，當擁有正確的RFID 卡（與系統中預加載的數據相同）的人來刷他的 RFID門禁卡時，將授予訪問權限。當持有錯誤 RFID 卡的人（其數據未加載到系統中）刷他的 RFID門禁卡時，訪問將被拒絕。
 
-![image](https://github.com/HsuWeiJ/InterviewSideProject/blob/master/RFID_LCD_Project/RFID_Based_Access_Control_using_8051.png)
+![image](https://github.com/HsuWeiJ/RFID-Based-Access-Control-on-8051/blob/master/RFID_Based_Access_Control_using_8051.png)
 
 - 上圖為 RFID 模組連接到 8051 的電路圖。
 - RFID 門禁卡中的 ID將由程式讀取並顯示在 16×2 LCD 顯示屏上。RFID 模組的 Tx 接腳連接到8051的P3_5 (RX)。8051通過該接腳從 RFID 模組接收數據。
